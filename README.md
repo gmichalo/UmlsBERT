@@ -9,11 +9,15 @@ In this work, we introduced UmlsBERT, a contextual embedding model capable of in
 
 - We proposed a new  multi-label loss function for the pre-training of the  Masked Language Modelling (Masked LM) task of UmlsBERT that considers the connections between medical words using the CUI attribute of UMLS. 
 
-<img src="/images/cuiumls_updated.png" height="250" width="500">
+<p align="center">
+ <img src="/images/cuiumls_updated.png" height="250" width="500">
+ </p>
 
 -  We introduced a  semantic group embedding  that enriches the input  embeddings process of UmlsBERT  by forcing the model  to take into consideration the association of the words that are part of the same semantic group.
 
-<img src="/images/umlsbert_updated.png" height="180" width="600">
+<p align="center">
+ <img src="/images/umlsbert_updated.png" height="180" width="600">
+ </p>
 
 
 ## Technologies
@@ -68,9 +72,9 @@ tar -xvf umlsbert.tar.xz
 ## Pretraining
 - The UmlsBERT was pretrained on the MIMIC data. Unfortunately, we cannot provide the text of the MIMIC III dataset as training course is mandatory in order to access the particular dataset.
 
--The MIMIC III dataset can be downloaded from the following [link](https://mimic.physionet.org/gettingstarted/access/)
+- The MIMIC III dataset can be downloaded from the following [link](https://mimic.physionet.org/gettingstarted/access/)
 
--The pretraining an UmlsBERT model depends on data from NLTK  so you'll have to download them. Run the Python interpreter (python3) and type the commands:
+- The pretraining an UmlsBERT model depends on data from NLTK  so you'll have to download them. Run the Python interpreter (python3) and type the commands:
 ```python
 >>> import nltk
 >>> nltk.download('punkt')
