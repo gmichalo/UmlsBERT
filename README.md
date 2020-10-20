@@ -1,4 +1,4 @@
-# UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus
+# UmlsBERT: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the Unified Medical Language System Metathesaurus
 
 ## General info
 
