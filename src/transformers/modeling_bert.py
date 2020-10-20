@@ -1100,6 +1100,9 @@ class BertForMaskedLM(BertPreTrainedModel):
 
         sequence_output = outputs[0]
         prediction_scores = self.cls(sequence_output)
+        device = prediction_scores.device
+
+
 
         outputs = (prediction_scores,) + outputs[2:]  # Add hidden states and attention if they are here
 
@@ -1107,11 +1110,11 @@ class BertForMaskedLM(BertPreTrainedModel):
             if soft_flag:
                 loss_soft = BCEWithLogitsLoss()
                 labels, input_ids_index = self.create_soft_labels(labels, cui_to_words, words_to_cui)
-                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index], labels)
+                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index], labels.to(device))
                 outputs = (masked_lm_loss,) + outputs
             else:
                 loss_fct = CrossEntropyLoss()  # -100 index = padding token
-                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1))
+                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1).to(device))
                 outputs = (masked_lm_loss,) + outputs
 
         return outputs  # (masked_lm_loss), prediction_scores, (hidden_states), (attentions)
