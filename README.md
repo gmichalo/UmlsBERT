@@ -3,7 +3,7 @@
 ## General info
 
 
-This is the code that was used of the paper :  UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus. 
+This is the code that was used of the paper :  [UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus](https://arxiv.org/abs/2010.10391).
 
 In this work, we introduced UmlsBERT, a contextual embedding model capable of integrating domain knowledge during pre-training. It was trained on biomedical corpora and uses the Unified Medical Language System (UMLS) clinical metathesaurus in two ways:
 
@@ -144,6 +144,19 @@ or directly run UmlsBert on the *token-classification/* folder:
 
 ```
 python3 run_ner.py --output_dir ./models/medicalBert-v1 --model_name_or_path  ../checkpoint/umlsbert    --labels dataset/NER/2006/label.txt --data_dir  dataset/NER/2006 --do_train --num_train_epochs 20 --per_device_train_batch_size 32  --learning_rate 1e-4  --do_predict --do_eval --umls --med_document ./voc/vocab_updated.txt
+```
+
+If you find our work useful, can cite our paper using:
+
+```
+@misc{michalopoulos2020umlsbert,
+      title={UmlsBERT: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the Unified Medical Language System Metathesaurus}, 
+      author={George Michalopoulos and Yuanxin Wang and Hussam Kaka and Helen Chen and Alex Wong},
+      year={2020},
+      eprint={2010.10391},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
 ```
 
 
