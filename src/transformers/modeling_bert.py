@@ -1113,13 +1113,11 @@ class BertForMaskedLM(BertPreTrainedModel):
             if soft_flag:
                 loss_soft = BCEWithLogitsLoss()
                 labels, input_ids_index = self.create_soft_labels(labels, cui_to_words, words_to_cui)
-                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index],
-                                           labels.to(device))
+                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index], labels.to(device))
                 outputs = (masked_lm_loss,) + outputs
             else:
                 loss_fct = CrossEntropyLoss()  # -100 index = padding token
-                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size),
-                                          labels.to(device).view(-1))
+                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.to(device).view(-1))
                 outputs = (masked_lm_loss,) + outputs
 
         return outputs  # (masked_lm_loss), prediction_scores, (hidden_states), (attentions)
@@ -1134,9 +1132,7 @@ class BertForMaskedLM(BertPreTrainedModel):
             if labels[i].item() != -100:
                 if labels[i].item() in word_to_cui:
                     cui = word_to_cui[labels[i].item()]
-                    target = torch.zeros(1, self.config.vocab_size).scatter_(1,
-                                                                             torch.tensor(cui_to_words[cui]).unsqueeze(
-                                                                                 0), 1.)
+                    target = torch.zeros(1, self.config.vocab_size).scatter_(1, torch.tensor(cui_to_words[cui]).unsqueeze(0), 1.)
                 else:
                     target = torch.zeros(1, self.config.vocab_size)
 
