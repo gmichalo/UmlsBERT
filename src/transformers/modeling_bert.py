@@ -28,6 +28,7 @@ from .activations import gelu, gelu_new, swish
 from .configuration_bert import BertConfig
 from .file_utils import add_start_docstrings, add_start_docstrings_to_callable
 from .modeling_utils import PreTrainedModel, find_pruneable_heads_and_indices, prune_linear_layer
+from torch.nn import init
 
 logger = logging.getLogger(__name__)
 
@@ -152,7 +153,10 @@ class BertEmbeddings(nn.Module):
         try:
             self.tui_type_embeddings = nn.Embedding(config.tui_size, config.hidden_size)
         except:
-            pass
+            self.tui_type_embeddings_zero = nn.Embedding(1, config.hidden_size)
+            self.tui_type_embeddings_zero.weight.data.fill_(0)
+            for param in self.tui_type_embeddings_zero.parameters():
+                param.requires_grad = False
         # self.LayerNorm is not snake-cased to stick with TensorFlow model variable name and be able to load
         # any TensorFlow checkpoint file
         self.LayerNorm = BertLayerNorm(config.hidden_size, eps=config.layer_norm_eps)
@@ -179,14 +183,15 @@ class BertEmbeddings(nn.Module):
         position_embeddings = self.position_embeddings(position_ids)
         token_type_embeddings = self.token_type_embeddings(token_type_ids)
         try:
+
+            if self.tui_type_embeddings.weight[0].data.sum().item() != 0:
+                torch.nn.Parameter(self.tui_type_embeddings.weight[0]).data.fill_(0)
             tui_embeddings = self.tui_type_embeddings(tui_ids)
-            tui_embeddings.view(-1, tui_embeddings.size()[2])[(tui_ids.view(-1) == 0).nonzero().view(-1)] = torch.zeros(
-                tui_embeddings.view(-1, tui_embeddings.size()[2])[
-                    (tui_ids.view(-1) == 0).nonzero().view(-1)].size()).to(device)
-
         except:
-            tui_embeddings = torch.zeros(input_shape[0],input_shape[1], self.hidden_size, device=device)
-
+            if self.tui_type_embeddings_zero.weight.data.sum().item() != 0:
+                self.tui_type_embeddings_zero.weight.data.fill_(0)
+            tui_embeddings_index = torch.zeros(input_shape[0], input_shape[1])
+            tui_embeddings = self.tui_type_embeddings_zero(tui_embeddings_index.long())
 
         embeddings = inputs_embeds + position_embeddings + token_type_embeddings + tui_embeddings
         embeddings = self.LayerNorm(embeddings)
@@ -198,7 +203,7 @@ class BertSelfAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0 and not hasattr(config, "embedding_size"):
-           raise ValueError(
+            raise ValueError(
                 "The hidden size (%d) is not a multiple of the number of attention "
                 "heads (%d)" % (config.hidden_size, config.num_attention_heads)
             )
@@ -1102,24 +1107,24 @@ class BertForMaskedLM(BertPreTrainedModel):
         prediction_scores = self.cls(sequence_output)
         device = prediction_scores.device
 
-
-
         outputs = (prediction_scores,) + outputs[2:]  # Add hidden states and attention if they are here
 
         if labels is not None:
             if soft_flag:
                 loss_soft = BCEWithLogitsLoss()
                 labels, input_ids_index = self.create_soft_labels(labels, cui_to_words, words_to_cui)
-                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index], labels.to(device))
+                masked_lm_loss = loss_soft(prediction_scores.view(-1, self.config.vocab_size)[input_ids_index],
+                                           labels.to(device))
                 outputs = (masked_lm_loss,) + outputs
             else:
                 loss_fct = CrossEntropyLoss()  # -100 index = padding token
-                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size), labels.view(-1).to(device))
+                masked_lm_loss = loss_fct(prediction_scores.view(-1, self.config.vocab_size),
+                                          labels.to(device).view(-1))
                 outputs = (masked_lm_loss,) + outputs
 
         return outputs  # (masked_lm_loss), prediction_scores, (hidden_states), (attentions)
 
-    def create_soft_labels(self,   labels, cui_to_words, word_to_cui):
+    def create_soft_labels(self, labels, cui_to_words, word_to_cui):
         final_labels = []
         input_ids_index = []
         labels = labels.view(-1)
@@ -1129,7 +1134,9 @@ class BertForMaskedLM(BertPreTrainedModel):
             if labels[i].item() != -100:
                 if labels[i].item() in word_to_cui:
                     cui = word_to_cui[labels[i].item()]
-                    target = torch.zeros(1, self.config.vocab_size).scatter_(1, torch.tensor(cui_to_words[cui]).unsqueeze(0), 1.)
+                    target = torch.zeros(1, self.config.vocab_size).scatter_(1,
+                                                                             torch.tensor(cui_to_words[cui]).unsqueeze(
+                                                                                 0), 1.)
                 else:
                     target = torch.zeros(1, self.config.vocab_size)
 
