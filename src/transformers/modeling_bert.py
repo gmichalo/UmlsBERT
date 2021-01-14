@@ -190,8 +190,8 @@ class BertEmbeddings(nn.Module):
         except:
             if self.tui_type_embeddings_zero.weight.data.sum().item() != 0:
                 self.tui_type_embeddings_zero.weight.data.fill_(0)
-            tui_embeddings_index = torch.zeros(input_shape[0], input_shape[1])
-            tui_embeddings = self.tui_type_embeddings_zero(tui_embeddings_index.long())
+            tui_embeddings_index = torch.zeros(input_shape[0], input_shape[1]).to(device)
+            tui_embeddings = self.tui_type_embeddings_zero(tui_embeddings_index.long()).to(device)
 
         embeddings = inputs_embeds + position_embeddings + token_type_embeddings + tui_embeddings
         embeddings = self.LayerNorm(embeddings)
