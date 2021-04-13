@@ -16,5 +16,5 @@
   "pad_token_id": 0,
   "type_vocab_size": 2,
   "vocab_size": 28996,
-  "tui_size": 7
+  "tui_size": 44
 }

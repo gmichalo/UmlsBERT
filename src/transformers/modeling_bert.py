@@ -154,7 +154,7 @@ class BertEmbeddings(nn.Module):
             self.tui_type_embeddings = nn.Embedding(config.tui_size, config.hidden_size)
         except:
             self.tui_type_embeddings_zero = nn.Embedding(1, config.hidden_size)
-            self.tui_type_embeddings_zero.weight.data.fill_(0)
+            torch.nn.Parameter(self.tui_type_embeddings_zero.weight).data.fill_(0)
             for param in self.tui_type_embeddings_zero.parameters():
                 param.requires_grad = False
         # self.LayerNorm is not snake-cased to stick with TensorFlow model variable name and be able to load
@@ -189,7 +189,7 @@ class BertEmbeddings(nn.Module):
             tui_embeddings = self.tui_type_embeddings(tui_ids)
         except:
             if self.tui_type_embeddings_zero.weight.data.sum().item() != 0:
-                self.tui_type_embeddings_zero.weight.data.fill_(0)
+                torch.nn.Parameter(self.tui_type_embeddings_zero.weight).data.fill_(0)
             tui_embeddings_index = torch.zeros(input_shape[0], input_shape[1]).to(device)
             tui_embeddings = self.tui_type_embeddings_zero(tui_embeddings_index.long()).to(device)
 

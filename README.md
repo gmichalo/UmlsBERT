@@ -3,7 +3,7 @@
 ## General info
 
 
-This is the code that was used of the paper :  [UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus](https://arxiv.org/abs/2010.10391).
+This is the code that was used of the paper :  [UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus](https://arxiv.org/abs/2010.10391) (NAACL  2021).
 
 In this work, we introduced UmlsBERT, a contextual embedding model capable of integrating domain knowledge during pre-training. It was trained on biomedical corpora and uses the Unified Medical Language System (UMLS) clinical metathesaurus in two ways:
 
@@ -59,7 +59,7 @@ apt-get install jupyter
 
 In order to use pre-trained  UmlsBERT model for the word embeddings (or the semantic embeddings), you need to dowload it into the folder examples/checkpoint/ from the link:
 ```
- wget -O umlsbert.tar.xz https://www.dropbox.com/s/qaoq5gfen69xdcc/umlsbert.tar.xz?dl=0
+ wget -O umlsbert.tar.xz https://www.dropbox.com/s/kziiuyhv9ile00s/umlsbert.tar.xz?dl=0
 ```
 
 into the folder examples/checkpoint/ and unzip it with the following command:

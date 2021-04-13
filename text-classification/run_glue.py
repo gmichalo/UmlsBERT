@@ -151,12 +151,12 @@ def main():
         GlueDataset(data_args,tokenizer=tokenizer, cache_dir=model_args.cache_dir, tui=tui_ids) if training_args.do_train else None
     )
     eval_dataset = (
-        GlueDataset(data_args, tokenizer=tokenizer, mode="dev", cache_dir=model_args.cache_dir)
+        GlueDataset(data_args, tokenizer=tokenizer, mode="dev", cache_dir=model_args.cache_dir, tui=tui_ids)
         if training_args.do_eval
         else None
     )
     test_dataset = (
-        GlueDataset(data_args, tokenizer=tokenizer, mode="test", cache_dir=model_args.cache_dir)
+        GlueDataset(data_args, tokenizer=tokenizer, mode="test", cache_dir=model_args.cache_dir, tui=tui_ids)
         if training_args.do_predict
         else None
     )
