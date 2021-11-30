@@ -103,7 +103,7 @@ python3  mednli.py
 ```
 - This python code will create the files: train.tsv,dev_matched.tsv and test_matched.tsv in the  *text-classification/dataset/mednli/mednli* folder
 - We provide an example-notebook under the folder  *experiements/*:
-  - [*experiements/MedNLI_task.ipynb*](https://github.com/gmichalo/umls_bert/blob/umls_clean/experiments/MedNLI_task.ipynb)
+  - [*experiements/MedNLI_task.ipynb*](https://github.com/gmichalo/UmlsBERT/blob/master/experiments/MedNLI_task.ipynb)
 
 or directly run UmlsBert on the *text-classification/* folder: 
 ```
@@ -138,7 +138,7 @@ python3 run_glue.py --output_dir ./models/medicalBert-v1 --model_name_or_path  .
   - The notebook will create the files: label.txt, dev.txt, test.txt, train.txt  in the *token-classification/dataset/NER/2014* folder
 
 - We provide an example-notebook under the folder  *experiements/*:
-  - [ *experiements/NER_task.ipynb*](https://github.com/gmichalo/umls_bert/blob/umls_clean/experiments/2006_task.ipynb)
+  - [ *experiements/NER_task.ipynb*](https://github.com/gmichalo/UmlsBERT/blob/master/experiments/NER_task.ipynb)
 
 or directly run UmlsBert on the *token-classification/* folder:
 
