@@ -149,13 +149,11 @@ python3 run_ner.py --output_dir ./models/medicalBert-v1 --model_name_or_path  ..
 If you find our work useful, can cite our paper using:
 
 ```
-@misc{michalopoulos2020umlsbert,
-      title={UmlsBERT: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the Unified Medical Language System Metathesaurus}, 
-      author={George Michalopoulos and Yuanxin Wang and Hussam Kaka and Helen Chen and Alex Wong},
-      year={2020},
-      eprint={2010.10391},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{Michalopoulos2021UmlsBERTCD,
+  title={UmlsBERT: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the Unified Medical Language System Metathesaurus},
+  author={George Michalopoulos and Yuanxin Wang and Hussam Kaka and Helen H Chen and Alexander Wong},
+  booktitle={NAACL},
+  year={2021}
 }
 ```
 
