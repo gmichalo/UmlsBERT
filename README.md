@@ -3,7 +3,7 @@
 ## General info
 
 
-This is the code that was used of the paper :  [UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus](https://arxiv.org/abs/2010.10391) (NAACL  2021).
+This is the code that was used of the paper :  [UmlsBERT: Augmenting Contextual Embeddings with a Clinical Metathesaurus](https://aclanthology.org/2021.naacl-main.139.pdf) (NAACL  2021).
 
 In this work, we introduced UmlsBERT, a contextual embedding model capable of integrating domain knowledge during pre-training. It was trained on biomedical corpora and uses the Unified Medical Language System (UMLS) clinical metathesaurus in two ways:
 
@@ -149,11 +149,21 @@ python3 run_ner.py --output_dir ./models/medicalBert-v1 --model_name_or_path  ..
 If you find our work useful, can cite our paper using:
 
 ```
-@inproceedings{Michalopoulos2021UmlsBERTCD,
-  title={UmlsBERT: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the Unified Medical Language System Metathesaurus},
-  author={George Michalopoulos and Yuanxin Wang and Hussam Kaka and Helen H Chen and Alexander Wong},
-  booktitle={NAACL},
-  year={2021}
+@inproceedings{michalopoulos-etal-2021-umlsbert,
+    title = "{U}mls{BERT}: Clinical Domain Knowledge Augmentation of Contextual Embeddings Using the {U}nified {M}edical {L}anguage {S}ystem {M}etathesaurus",
+    author = "Michalopoulos, George  and
+      Wang, Yuanxin  and
+      Kaka, Hussam  and
+      Chen, Helen  and
+      Wong, Alexander",
+    booktitle = "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+    month = jun,
+    year = "2021",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.naacl-main.139",
+    doi = "10.18653/v1/2021.naacl-main.139",
+    pages = "1744--1753",
 }
 ```
 
