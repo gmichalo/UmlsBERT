@@ -5,7 +5,7 @@ count = 0
 for line in Lines:
     try:
         label = line.split(" ")[1].replace("\n","")
-    except:
+    except IndexError:
         pass
     if label not in labels:
         labels[label] = 0
